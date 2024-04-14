@@ -6,12 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ServiceUser {
-    @Autowired //importar automaticamente minha interface
-    private UserRepository repository;
+public class UserService {
 
-    public User salvarUser(user) {
-        User result = repository.save(user);
-        return result;
+    private final UserRepository userRepository;
+
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public User createUser(User user) {
+        return userRepository.save(user);
     }
 }
+
