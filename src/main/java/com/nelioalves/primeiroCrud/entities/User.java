@@ -13,10 +13,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // para o id ser auto incrementado pelo banco de dados
     private Long id;
     private String name;
-
     private String email;
 
-    @ManyToOne // tag JPA que relaciona que muitos usuário podem ser cadastrados em um único departamento.
+    @ManyToOne // tag JPA que relaciona que muitos usuário podem ser cadastrados em um departamento.
     @JoinColumn(name = "department_id") // configurando o nome da chave estrangeira do banco de dados departamento na classe uduário
     private Departament departament; // em java estou "ligando" os objetos, porém tenho que fazer o mesmo no banco relacional
 

@@ -5,16 +5,18 @@ import com.nelioalves.primeiroCrud.entities.User;
 
 public class UserDto {
     private Long id;
+
     private String name;
+
     private String email;
 
-    private Departament departament;
+    private DepartamentDto departament;
 
     public UserDto(User user) {
         id = user.getId();
         name = user.getName();
         email = user.getEmail();
-        departament = user.getDepartament();
+        departament = new DepartamentDto(user.getDepartament().getId(), user.getDepartament().getName());
     }
 
     public UserDto() {
@@ -24,7 +26,7 @@ public class UserDto {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.departament = departament;
+        this.departament = new DepartamentDto(departament.getId(), departament.getName());
     }
 
     public Long getId() {
@@ -51,11 +53,11 @@ public class UserDto {
         this.email = email;
     }
 
-    public Departament getDepartament() {
+    public DepartamentDto getDepartament() {
         return departament;
     }
 
-    public void setDepartament(Departament departament) {
+    public void setDepartament(DepartamentDto departament) {
         this.departament = departament;
     }
 }
