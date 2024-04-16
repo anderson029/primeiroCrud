@@ -48,6 +48,16 @@ public class UserService {
         return dtos;
     }
 
+    public UserDto updateUser(Long id, UserDto user){
+        User findUser = userRepository.findById(id).get();
+        findUser.setName(user.getName());
+        findUser.setEmail(user.getEmail());
+
+       userRepository.save(findUser);
+       UserDto updateUser = new UserDto(findUser);
+       return updateUser;
+    }
+
     public void removeUser(Long id) {
          userRepository.deleteById(id);
     }
