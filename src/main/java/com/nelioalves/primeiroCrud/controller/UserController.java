@@ -24,6 +24,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
     }
 
+    //TODO: estudar paginação e implementar.
     @GetMapping
     public List<UserDto> findAll() {
        return userService.findAll();

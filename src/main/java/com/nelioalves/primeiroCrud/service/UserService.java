@@ -62,7 +62,7 @@ public class UserService {
         Optional<User> userOpt = userRepository.findById(id);
 
         if (userOpt.isPresent()){
-            User userEntity = userRepository.findById(id).get();
+            User userEntity = userOpt.get();
             userEntity.setName(userDto.getName());
             userEntity.setEmail(userDto.getEmail());
             userRepository.save(userEntity);
