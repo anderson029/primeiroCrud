@@ -1,13 +1,18 @@
 package com.nelioalves.primeiroCrud.dto;
 
+import com.nelioalves.primeiroCrud.constants.ValidationMessages;
 import com.nelioalves.primeiroCrud.entities.Departament;
 import com.nelioalves.primeiroCrud.entities.User;
+import jakarta.validation.constraints.NotBlank;
 
+//TODO: adicionar regras nas request, como exemplo do email.
 public class UserDto {
     private Long id;
 
+    @NotBlank(message = ValidationMessages.NAME_NOT_NULL)
     private String name;
 
+    @NotBlank(message = ValidationMessages.EMAIL_NOT_NULL)
     private String email;
 
     private DepartamentDto departament;

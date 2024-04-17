@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+//TODO: Refatorar para utilizar Lombok.
 @Service
 public class UserService {
 
@@ -23,39 +25,54 @@ public class UserService {
         //Transformando DTO em entidade.
         Departament departamentEntity = departamentService.findById(user.getDepartament().getId());
         User userEntity = new User(user.getId(), user.getName(), user.getEmail(), departamentEntity);
-
         //Salvando entidade no banco.
         User userSaved = userRepository.save(userEntity);
         // Convertendo a entidade em DTO.
-        UserDto userDto = new UserDto(userSaved);
-
-        return userDto;
+        return new UserDto(userSaved);
     }
 
     public UserDto findById(Long id) {
         User entity = userRepository.findById(id).get();
-        UserDto dto = new UserDto(entity);
-        return dto;
+        return new UserDto(entity);
     }
 
     public List<UserDto> findAll() {
         List<User> listUsuario = userRepository.findAll();
         List<UserDto> dtos = new ArrayList<>();
+
+// Outras formas de realizar o FOR.
+//        int index = 0;
+//        while(index < listUsuario.size()){
+//            User user = listUsuario.get(index);
+//            dtos.add(new UserDto(user));
+//        }
+//
+//        for(int i=0; i < listUsuario.size(); i++){
+//            User user = listUsuario.get(i);
+//            dtos.add(new UserDto(user));
+//        }
+
         for (User user : listUsuario) {
-            UserDto dto = new UserDto(user);
-            dtos.add(dto);
+            dtos.add(new UserDto(user));
         }
         return dtos;
     }
 
-    public UserDto updateUser(Long id, UserDto user){
-        User findUser = userRepository.findById(id).get();
-        findUser.setName(user.getName());
-        findUser.setEmail(user.getEmail());
+    public UserDto updateUser(Long id, UserDto userDto){
+        Optional<User> userOpt = userRepository.findById(id);
 
-       userRepository.save(findUser);
-       UserDto updateUser = new UserDto(findUser);
-       return updateUser;
+        if (userOpt.isPresent()){
+            User userEntity = userRepository.findById(id).get();
+            userEntity.setName(userDto.getName());
+            userEntity.setEmail(userDto.getEmail());
+            userRepository.save(userEntity);
+            UserDto updateUser = new UserDto(userEntity);
+            return updateUser;
+        }
+        else  {
+            System.out.println("Usuário não encontrado"); //TODO: Implementar exceptions.
+            return null;
+        }
     }
 
     public void removeUser(Long id) {

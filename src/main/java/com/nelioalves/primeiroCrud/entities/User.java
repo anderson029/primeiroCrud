@@ -15,7 +15,7 @@ public class User {
     private String name;
     private String email;
 
-    @ManyToOne // tag JPA que relaciona que muitos usuário podem ser cadastrados em um departamento.
+    @ManyToOne //tag JPA que relaciona que muitos usuário podem ser cadastrados em um departamento.
     @JoinColumn(name = "department_id") // configurando o nome da chave estrangeira do banco de dados departamento na classe uduário
     private Departament departament; // em java estou "ligando" os objetos, porém tenho que fazer o mesmo no banco relacional
 
@@ -27,11 +27,6 @@ public class User {
         this.name = name;
         this.email = email;
         this.departament = departament;
-    }
-
-    public User(String name, String email) {
-        this.name = name;
-        this.email =email;
     }
 
     public Long getId() {

@@ -2,11 +2,16 @@ package com.nelioalves.primeiroCrud.controller;
 
 import com.nelioalves.primeiroCrud.dto.UserDto;
 import com.nelioalves.primeiroCrud.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//TODO: Criar Swagger.
+//TODO: Tratar os controllers com responseEntity.
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
@@ -14,8 +19,9 @@ public class UserController {
     private UserService userService; //injetar automaticamente minha service
 
     @PostMapping
-    public UserDto createUsers(@RequestBody UserDto user){
-        return userService.createUser(user);
+    public ResponseEntity<UserDto> createUsers(@RequestBody @Valid UserDto user){
+        UserDto userDto = userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
     }
 
     @GetMapping
