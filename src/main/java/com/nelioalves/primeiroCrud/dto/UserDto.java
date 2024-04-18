@@ -1,7 +1,7 @@
 package com.nelioalves.primeiroCrud.dto;
 
 import com.nelioalves.primeiroCrud.constants.ValidationMessages;
-import com.nelioalves.primeiroCrud.dto.request.DepartamentRequestDto;
+import com.nelioalves.primeiroCrud.dto.request.DepartamentRequestUpdateDto;
 import com.nelioalves.primeiroCrud.entities.Departament;
 import com.nelioalves.primeiroCrud.entities.User;
 import jakarta.validation.constraints.NotBlank;
@@ -16,13 +16,13 @@ public class UserDto {
     @NotBlank(message = ValidationMessages.EMAIL_NOT_NULL)
     private String email;
 
-    private DepartamentRequestDto departament;
+    private DepartamentRequestUpdateDto departament;
 
     public UserDto(User user) {
         id = user.getId();
         name = user.getName();
         email = user.getEmail();
-        departament = new DepartamentRequestDto(user.getDepartament().getId(), user.getDepartament().getName());
+        departament = new DepartamentRequestUpdateDto(user.getDepartament().getId(), user.getDepartament().getName());
     }
 
     public UserDto() {
@@ -32,7 +32,7 @@ public class UserDto {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.departament = new DepartamentRequestDto(departament.getId(), departament.getName());
+        this.departament = new DepartamentRequestUpdateDto(departament.getId(), departament.getName());
     }
 
     public Long getId() {
@@ -59,11 +59,11 @@ public class UserDto {
         this.email = email;
     }
 
-    public DepartamentRequestDto getDepartament() {
+    public DepartamentRequestUpdateDto getDepartament() {
         return departament;
     }
 
-    public void setDepartament(DepartamentRequestDto departament) {
+    public void setDepartament(DepartamentRequestUpdateDto departament) {
         this.departament = departament;
     }
 }

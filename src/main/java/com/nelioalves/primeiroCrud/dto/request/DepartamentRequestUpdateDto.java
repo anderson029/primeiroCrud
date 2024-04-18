@@ -7,26 +7,24 @@ import jakarta.validation.constraints.NotNull;
 
 
 //TODO: Adicionar o lombok;
-//TODO: Criar Dtos request para update de departamaneto, pois esse DTo é utilzado para create e o id nao pode ser nulo;
+//TODO: Criar Dtos request para update de departamaneto, pois esse DTo é utilizado para create e o id nao pode ser nulo;
 
-public class DepartamentRequestDto {
+public class DepartamentRequestUpdateDto {
 
-    //TODO: Implementar validação quando for get por id null ou vazio
-    @NotNull(message = ValidationMessages.ID_NOT_NULL)
     private Long id;
 
     @NotBlank(message = ValidationMessages.NAME_NOT_NULL)
     private String name;
 
-    public DepartamentRequestDto(Departament departament) {
+    public DepartamentRequestUpdateDto(Departament departament) {
         this.id = departament.getId();
         this.name = departament.getName();
     }
 
-    public DepartamentRequestDto() {
+    public DepartamentRequestUpdateDto() {
     }
 
-    public DepartamentRequestDto(Long id, String name) {
+    public DepartamentRequestUpdateDto(Long id, String name) {
         this.id = id;
         this.name = name;
     }

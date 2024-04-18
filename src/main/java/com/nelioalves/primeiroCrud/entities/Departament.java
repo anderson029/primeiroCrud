@@ -16,8 +16,14 @@ public class Departament {
     public Departament() {
     }
 
+
+
     public Departament(Long id, String name) {
         this.id = id;
+        this.name = name;
+    }
+
+    public Departament(String name) {
         this.name = name;
     }
 

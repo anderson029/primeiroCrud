@@ -1,6 +1,7 @@
 package com.nelioalves.primeiroCrud.service;
 
-import com.nelioalves.primeiroCrud.dto.request.DepartamentRequestDto;
+import com.nelioalves.primeiroCrud.dto.request.DepartamentRequestCreateDto;
+import com.nelioalves.primeiroCrud.dto.request.DepartamentRequestUpdateDto;
 import com.nelioalves.primeiroCrud.dto.response.DepartamentResponseDto;
 import com.nelioalves.primeiroCrud.entities.Departament;
 import com.nelioalves.primeiroCrud.repository.DepartamentRepository;
@@ -19,8 +20,8 @@ public class DepartamentService {
     private DepartamentRepository departamentRepository;
 
     //TODO: Sugeriu fazer um ATOMIC
-    public DepartamentResponseDto createDepartament (DepartamentRequestDto departamentDto){
-        Departament departamentEntity = new Departament(departamentDto.getId(), departamentDto.getName());
+    public DepartamentResponseDto createDepartament (DepartamentRequestCreateDto departamentDto){
+        Departament departamentEntity = new Departament(departamentDto.getName());
         Departament departamentSaved = departamentRepository.save(departamentEntity);
         return new DepartamentResponseDto(departamentSaved);
     }
@@ -43,15 +44,17 @@ public class DepartamentService {
         return departamentDtos;
      }
 
-     public void updateDepartament(DepartamentRequestDto departament) {
-        Optional<Departament> departamentOpt = departamentRepository.findById(departament.getId());
+     public DepartamentResponseDto updateDepartament(Long id, DepartamentRequestUpdateDto departament) {
+        Optional<Departament> departamentOpt = departamentRepository.findById(id);
         if (departamentOpt.isPresent()){
             Departament departamentEntity = departamentOpt.get();
             departamentEntity.setName(departament.getName());
             departamentRepository.save(departamentEntity);
+            return new DepartamentResponseDto(departamentEntity);
         }
         else {
             System.out.println("O departamento não foi encontrado"); //TODO: Implementar exceptions.
+            return null;
         }
      }
 

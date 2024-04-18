@@ -1,7 +1,8 @@
 package com.nelioalves.primeiroCrud.controller;
 
 
-import com.nelioalves.primeiroCrud.dto.request.DepartamentRequestDto;
+import com.nelioalves.primeiroCrud.dto.request.DepartamentRequestCreateDto;
+import com.nelioalves.primeiroCrud.dto.request.DepartamentRequestUpdateDto;
 import com.nelioalves.primeiroCrud.dto.response.DepartamentResponseDto;
 import com.nelioalves.primeiroCrud.service.DepartamentService;
 import jakarta.validation.Valid;
@@ -21,7 +22,7 @@ public class DepartamentController {
     @Autowired
     private DepartamentService departamentService;
     @PostMapping
-    public ResponseEntity<DepartamentResponseDto> createDepartament (@RequestBody @Valid DepartamentRequestDto departament){
+    public ResponseEntity<DepartamentResponseDto> createDepartament (@RequestBody @Valid DepartamentRequestCreateDto departament){
         DepartamentResponseDto departamentDto = departamentService.createDepartament(departament);
         return ResponseEntity.status(HttpStatus.CREATED).body(departamentDto);
     }
@@ -33,18 +34,16 @@ public class DepartamentController {
     }
 
     //TODO: estudar paginação e implementar.
-    //TODO:
     @GetMapping
     public ResponseEntity <List<DepartamentResponseDto>> findAll(){
         List<DepartamentResponseDto> departamentDtos =  departamentService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(departamentDtos);
     }
 
-    //TODO: Receber Id como variavel na URL
-    @PutMapping
-    public ResponseEntity updateDepartament (@RequestBody DepartamentRequestDto departament){
-        departamentService.updateDepartament(departament);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<DepartamentResponseDto> updateDepartament (@PathVariable Long id, @RequestBody @Valid DepartamentRequestUpdateDto departament){
+        DepartamentResponseDto departamentDTO = departamentService.updateDepartament(id, departament);
+        return ResponseEntity.status(HttpStatus.OK).body(departamentDTO);
     }
 
     @DeleteMapping(value = "/{id}")
