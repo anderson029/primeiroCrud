@@ -1,6 +1,7 @@
 package com.nelioalves.primeiroCrud.service;
 
-import com.nelioalves.primeiroCrud.dto.UserDto;
+import com.nelioalves.primeiroCrud.dto.request.UserRequestCreateDto;
+import com.nelioalves.primeiroCrud.dto.response.UserResponseCreateDto;
 import com.nelioalves.primeiroCrud.entities.Departament;
 import com.nelioalves.primeiroCrud.entities.User;
 import com.nelioalves.primeiroCrud.repository.UserRepository;
@@ -21,24 +22,24 @@ public class UserService {
     @Autowired
     private DepartamentService departamentService;
 
-    public UserDto createUser(UserDto user) {
+    public UserResponseCreateDto createUser(UserRequestCreateDto user) {
         //Transformando DTO em entidade.
-        Departament departamentEntity = departamentService.findById(user.getDepartament().getId());
-        User userEntity = new User(user.getId(), user.getName(), user.getEmail(), departamentEntity);
+        Departament departamentEntity = departamentService.findById(user.getDepartamentId());
+        User userEntity = new User(null,user.getName(), user.getEmail(), departamentEntity);
         //Salvando entidade no banco.
         User userSaved = userRepository.save(userEntity);
         // Convertendo a entidade em DTO.
-        return new UserDto(userSaved);
+        return new UserResponseCreateDto(userSaved);
     }
 
-    public UserDto findById(Long id) {
+    public UserResponseCreateDto findById(Long id) {
         User entity = userRepository.findById(id).get();
-        return new UserDto(entity);
+        return new UserResponseCreateDto(entity);
     }
 
-    public List<UserDto> findAll() {
+    public List<UserResponseCreateDto> findAll() {
         List<User> listUsuario = userRepository.findAll();
-        List<UserDto> dtos = new ArrayList<>();
+        List<UserResponseCreateDto> dtos = new ArrayList<>();
 
 // Outras formas de realizar o FOR.
 //        int index = 0;
@@ -53,21 +54,21 @@ public class UserService {
 //        }
 
         for (User user : listUsuario) {
-            dtos.add(new UserDto(user));
+            dtos.add(new UserResponseCreateDto(user));
         }
         return dtos;
     }
 
-    public UserDto updateUser(Long id, UserDto userDto){
+    public UserResponseCreateDto updateUser(Long id, UserRequestCreateDto userRequestCreateDto){
         Optional<User> userOpt = userRepository.findById(id);
 
         if (userOpt.isPresent()){
             User userEntity = userOpt.get();
-            userEntity.setName(userDto.getName());
-            userEntity.setEmail(userDto.getEmail());
+            userEntity.setName(userRequestCreateDto.getName());
+            userEntity.setEmail(userRequestCreateDto.getEmail());
             userRepository.save(userEntity);
-            UserDto updateUser = new UserDto(userEntity);
-            return updateUser;
+            UserResponseCreateDto updateResponse = new UserResponseCreateDto(userEntity);
+            return updateResponse;
         }
         else  {
             System.out.println("Usuário não encontrado"); //TODO: Implementar exceptions.

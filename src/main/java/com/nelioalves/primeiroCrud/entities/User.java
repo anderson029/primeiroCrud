@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id // para dizer que minha chave é primária
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // para o id ser auto incrementado pelo banco de dados
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // para o id ser gerado automaticamente pelo banco de dados.
     private Long id;
     private String name;
     private String email;

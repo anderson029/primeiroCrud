@@ -1,6 +1,7 @@
 package com.nelioalves.primeiroCrud.controller;
 
-import com.nelioalves.primeiroCrud.dto.UserDto;
+import com.nelioalves.primeiroCrud.dto.request.UserRequestCreateDto;
+import com.nelioalves.primeiroCrud.dto.response.UserResponseCreateDto;
 import com.nelioalves.primeiroCrud.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,24 +20,24 @@ public class UserController {
     private UserService userService; //injetar automaticamente minha service
 
     @PostMapping
-    public ResponseEntity<UserDto> createUsers(@RequestBody @Valid UserDto user){
-        UserDto userDto = userService.createUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
+    public ResponseEntity<UserResponseCreateDto> createUsers(@RequestBody @Valid UserRequestCreateDto user){
+        UserResponseCreateDto userResponseCreateDto = userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userResponseCreateDto);
     }
 
     //TODO: estudar paginação e implementar.
     @GetMapping
-    public List<UserDto> findAll() {
+    public List<UserResponseCreateDto> findAll() {
        return userService.findAll();
     }
 
     @GetMapping(value="/{id}")
-    public UserDto findbyId(@PathVariable Long id) {
+    public UserResponseCreateDto findbyId(@PathVariable Long id) {
         return userService.findById(id);
     }
 
     @PutMapping(value = "/{id}")
-    public UserDto updateUser (@PathVariable Long id, @RequestBody UserDto user){
+    public UserResponseCreateDto updateUser (@PathVariable Long id, @RequestBody UserRequestCreateDto user){
         return userService.updateUser(id,user);
     }
 
