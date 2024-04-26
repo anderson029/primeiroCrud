@@ -25,7 +25,7 @@ public class UserService {
     public UserResponseCreateDto createUser(UserRequestCreateDto user) {
         //Transformando DTO em entidade.
         Departament departamentEntity = departamentService.findById(user.getDepartamentId());
-        User userEntity = new User(null,user.getName(), user.getEmail(), departamentEntity);
+        User userEntity = new User(null, user.getName(), user.getEmail(), departamentEntity);
         //Salvando entidade no banco.
         User userSaved = userRepository.save(userEntity);
         // Convertendo a entidade em DTO.
