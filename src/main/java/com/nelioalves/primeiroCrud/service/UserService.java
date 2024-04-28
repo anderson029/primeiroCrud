@@ -1,7 +1,9 @@
 package com.nelioalves.primeiroCrud.service;
 
-import com.nelioalves.primeiroCrud.dto.UserDto;
+import com.nelioalves.primeiroCrud.dto.request.UserRequestCreateDto;
+import com.nelioalves.primeiroCrud.dto.response.UserResponseCreateDto;
 import com.nelioalves.primeiroCrud.entities.Departament;
+import com.nelioalves.primeiroCrud.entities.Endereco;
 import com.nelioalves.primeiroCrud.entities.User;
 import com.nelioalves.primeiroCrud.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+//TODO: Refatorar para utilizar Lombok.
 @Service
 public class UserService {
 
@@ -19,43 +23,68 @@ public class UserService {
     @Autowired
     private DepartamentService departamentService;
 
-    public UserDto createUser(UserDto user) {
-        //Transformando DTO em entidade.
-        Departament departamentEntity = departamentService.findById(user.getDepartament().getId());
-        User userEntity = new User(user.getId(), user.getName(), user.getEmail(), departamentEntity);
+    @Autowired
+    private EnderecoService enderecoService;
 
+    public UserResponseCreateDto createUser(UserRequestCreateDto user) {
+        //Transformando DTO em entidade.
+        Endereco enderecoEntity = enderecoService.findById(user.getEnderecoId());
+        Departament departamentEntity = departamentService.findById(user.getDepartamentId());
+        User userEntity = User.builder()
+                .id(null)
+                .name(user.getName())
+                .email(user.getEmail())
+                .departament(departamentEntity)
+                .endereco(enderecoEntity)
+                .build();
         //Salvando entidade no banco.
         User userSaved = userRepository.save(userEntity);
         // Convertendo a entidade em DTO.
-        UserDto userDto = new UserDto(userSaved);
-
-        return userDto;
+        return new UserResponseCreateDto(userSaved);
     }
 
-    public UserDto findById(Long id) {
+    public UserResponseCreateDto findById(Long id) {
         User entity = userRepository.findById(id).get();
-        UserDto dto = new UserDto(entity);
-        return dto;
+        return new UserResponseCreateDto(entity);
     }
 
-    public List<UserDto> findAll() {
+    public List<UserResponseCreateDto> findAll() {
         List<User> listUsuario = userRepository.findAll();
-        List<UserDto> dtos = new ArrayList<>();
+        List<UserResponseCreateDto> dtos = new ArrayList<>();
+
+// Outras formas de realizar o FOR.
+//        int index = 0;
+//        while(index < listUsuario.size()){
+//            User user = listUsuario.get(index);
+//            dtos.add(new UserDto(user));
+//        }
+//
+//        for(int i=0; i < listUsuario.size(); i++){
+//            User user = listUsuario.get(i);
+//            dtos.add(new UserDto(user));
+//        }
+
         for (User user : listUsuario) {
-            UserDto dto = new UserDto(user);
-            dtos.add(dto);
+            dtos.add(new UserResponseCreateDto(user));
         }
         return dtos;
     }
 
-    public UserDto updateUser(Long id, UserDto user){
-        User findUser = userRepository.findById(id).get();
-        findUser.setName(user.getName());
-        findUser.setEmail(user.getEmail());
+    public UserResponseCreateDto updateUser(Long id, UserRequestCreateDto userRequestCreateDto){
+        Optional<User> userOpt = userRepository.findById(id);
 
-       userRepository.save(findUser);
-       UserDto updateUser = new UserDto(findUser);
-       return updateUser;
+        if (userOpt.isPresent()){
+            User userEntity = userOpt.get();
+            userEntity.setName(userRequestCreateDto.getName());
+            userEntity.setEmail(userRequestCreateDto.getEmail());
+            userRepository.save(userEntity);
+            UserResponseCreateDto updateResponse = new UserResponseCreateDto(userEntity);
+            return updateResponse;
+        }
+        else  {
+            System.out.println("Usuário não encontrado"); //TODO: Implementar exceptions.
+            return null;
+        }
     }
 
     public void removeUser(Long id) {
