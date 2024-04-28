@@ -2,23 +2,15 @@ package com.nelioalves.primeiroCrud.dto.request;
 
 import com.nelioalves.primeiroCrud.constants.ValidationMessages;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class DepartamentRequestCreateDto {
 
     @NotNull(message = ValidationMessages.NAME_NOT_NULL)
     private String name;
-
-    public DepartamentRequestCreateDto() {
-    }
-    public DepartamentRequestCreateDto(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

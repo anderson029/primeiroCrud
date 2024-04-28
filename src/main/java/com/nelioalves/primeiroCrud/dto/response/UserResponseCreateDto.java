@@ -3,11 +3,17 @@ package com.nelioalves.primeiroCrud.dto.response;
 import com.nelioalves.primeiroCrud.constants.ValidationMessages;
 import com.nelioalves.primeiroCrud.dto.request.DepartamentRequestUpdateDto;
 import com.nelioalves.primeiroCrud.entities.Departament;
+import com.nelioalves.primeiroCrud.entities.Endereco;
 import com.nelioalves.primeiroCrud.entities.User;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
-//TODO: adicionar lombok
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserResponseCreateDto {
     private Long id;
 
@@ -19,49 +25,13 @@ public class UserResponseCreateDto {
 
     private DepartamentResponseDto departament;
 
+    private EnderecoResponseCreateDto endereco;
+
     public UserResponseCreateDto(User user) {
         id = user.getId();
         name = user.getName();
         email = user.getEmail();
-        departament = new DepartamentResponseDto(user.getDepartament().getId(), user.getDepartament().getName());
-    }
-
-    public UserResponseCreateDto() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public DepartamentResponseDto getDepartament() {
-        return departament;
-    }
-
-    public void setDepartament(DepartamentResponseDto departament) {
-        this.departament = departament;
+        departament = new DepartamentResponseDto(user.getDepartament());
+        endereco = new EnderecoResponseCreateDto(user.getEndereco());
     }
 }
-
-
-
-

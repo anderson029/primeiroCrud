@@ -12,16 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class DepartamentService {
-
     @Autowired
     private DepartamentRepository departamentRepository;
 
-    //TODO: Sugeriu fazer um ATOMIC
     public DepartamentResponseDto createDepartament (DepartamentRequestCreateDto departamentDto){
-        Departament departamentEntity = new Departament(departamentDto.getName());
+        Departament departamentEntity = Departament.builder()
+                .id(null)
+                .name(departamentDto.getName())
+                .build();
         Departament departamentSaved = departamentRepository.save(departamentEntity);
         return new DepartamentResponseDto(departamentSaved);
     }

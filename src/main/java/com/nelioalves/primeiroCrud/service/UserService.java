@@ -3,6 +3,7 @@ package com.nelioalves.primeiroCrud.service;
 import com.nelioalves.primeiroCrud.dto.request.UserRequestCreateDto;
 import com.nelioalves.primeiroCrud.dto.response.UserResponseCreateDto;
 import com.nelioalves.primeiroCrud.entities.Departament;
+import com.nelioalves.primeiroCrud.entities.Endereco;
 import com.nelioalves.primeiroCrud.entities.User;
 import com.nelioalves.primeiroCrud.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,20 @@ public class UserService {
     @Autowired
     private DepartamentService departamentService;
 
+    @Autowired
+    private EnderecoService enderecoService;
+
     public UserResponseCreateDto createUser(UserRequestCreateDto user) {
         //Transformando DTO em entidade.
+        Endereco enderecoEntity = enderecoService.findById(user.getEnderecoId());
         Departament departamentEntity = departamentService.findById(user.getDepartamentId());
-        User userEntity = new User(null, user.getName(), user.getEmail(), departamentEntity);
+        User userEntity = User.builder()
+                .id(null)
+                .name(user.getName())
+                .email(user.getEmail())
+                .departament(departamentEntity)
+                .endereco(enderecoEntity)
+                .build();
         //Salvando entidade no banco.
         User userSaved = userRepository.save(userEntity);
         // Convertendo a entidade em DTO.
