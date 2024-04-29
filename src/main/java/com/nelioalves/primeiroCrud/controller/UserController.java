@@ -27,8 +27,9 @@ public class UserController {
 
     //TODO: estudar paginação e implementar.
     @GetMapping
-    public List<UserResponseCreateDto> findAll() {
-       return userService.findAll();
+    public ResponseEntity<List<UserResponseCreateDto>> findAll() {
+        List<UserResponseCreateDto> users = userService.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
     @GetMapping(value="/{id}")

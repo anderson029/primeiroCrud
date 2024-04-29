@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_user") // anotação da JPA para nomear a tabela
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id // para dizer que minha chave é primária
@@ -25,47 +27,4 @@ public class User {
     @OneToOne
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
-
-    public User() {
-    }
-
-    public User(Long id, String name, String email, Departament departament, Endereco endereco) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.departament = departament;
-        this.endereco = endereco;
-    }
-
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
-//
-//    public Departament getDepartament() {
-//        return departament;
-//    }
-//
-//    public void setDepartament(Departament departament) {
-//        this.departament = departament;
-//    }
 }

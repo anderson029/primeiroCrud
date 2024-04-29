@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-//TODO: Refatorar para utilizar Lombok.
 @Service
 public class UserService {
 
