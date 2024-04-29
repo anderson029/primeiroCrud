@@ -30,6 +30,16 @@ public class UserResponseCreateDto {
         name = user.getName();
         email = user.getEmail();
         departament = new DepartamentResponseDto(user.getDepartament());
-        endereco = new EnderecoResponseCreateDto(user.getEndereco());
+        endereco = EnderecoResponseCreateDto.builder()
+                .Id(user.getEndereco().getId())
+                .rua(user.getEndereco().getRua())
+                .numero(user.getEndereco().getNumero())
+                .complemento(user.getEndereco().getComplemento())
+                .bairro(user.getEndereco().getBairro())
+                .cidade(user.getEndereco().getCidade())
+                .estado(user.getEndereco().getEstado())
+                .cep(user.getEndereco().getCep())
+                .pais(user.getEndereco().getPais())
+                .build();
     }
 }

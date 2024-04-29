@@ -4,7 +4,7 @@ import com.nelioalves.primeiroCrud.dto.request.UserRequestCreateDto;
 import com.nelioalves.primeiroCrud.dto.response.UserResponseCreateDto;
 import com.nelioalves.primeiroCrud.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +15,9 @@ import java.util.List;
 //TODO: Tratar os controllers com responseEntity.
 @RestController
 @RequestMapping(value = "/users")
+@AllArgsConstructor
 public class UserController {
-    @Autowired
+
     private UserService userService; //injetar automaticamente minha service
 
     @PostMapping

@@ -6,7 +6,7 @@ import com.nelioalves.primeiroCrud.dto.request.DepartamentRequestUpdateDto;
 import com.nelioalves.primeiroCrud.dto.response.DepartamentResponseDto;
 import com.nelioalves.primeiroCrud.service.DepartamentService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +17,9 @@ import java.util.List;
 //TODO: Criar parâmetros para os métodos GET.
 @RestController
 @RequestMapping(value = "/departaments")
+@AllArgsConstructor
 public class DepartamentController {
 
-    @Autowired
     private DepartamentService departamentService;
     @PostMapping
     public ResponseEntity<DepartamentResponseDto> createDepartament (@RequestBody @Valid DepartamentRequestCreateDto departament){
