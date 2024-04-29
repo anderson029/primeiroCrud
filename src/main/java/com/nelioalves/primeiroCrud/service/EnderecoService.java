@@ -30,6 +30,7 @@ public class EnderecoService {
 
         Endereco enderecoBanco = enderecoRepository.save(enderecoEntity);
         return new EnderecoResponseCreateDto(enderecoBanco); //TODO Giva seria legal usar builder no response, ou criar contrutor como fiz?
+
     }
 
     public Endereco findById (Long id){

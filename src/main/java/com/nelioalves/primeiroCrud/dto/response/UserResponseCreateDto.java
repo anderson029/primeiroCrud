@@ -17,10 +17,8 @@ import lombok.NoArgsConstructor;
 public class UserResponseCreateDto {
     private Long id;
 
-    @NotBlank(message = ValidationMessages.NAME_NOT_NULL)
     private String name;
 
-    @NotBlank(message = ValidationMessages.EMAIL_NOT_NULL)
     private String email;
 
     private DepartamentResponseDto departament;
