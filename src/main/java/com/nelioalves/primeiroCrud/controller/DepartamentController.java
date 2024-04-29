@@ -33,7 +33,6 @@ public class DepartamentController {
         return ResponseEntity.status(HttpStatus.OK).body(departamentDto);
     }
 
-    //TODO: estudar paginação e implementar.
     @GetMapping
     public ResponseEntity <List<DepartamentResponseDto>> findAll(){
         List<DepartamentResponseDto> departamentDtos =  departamentService.findAll();
