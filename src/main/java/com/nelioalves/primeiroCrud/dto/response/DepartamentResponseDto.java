@@ -13,9 +13,4 @@ import lombok.NoArgsConstructor;
 public class DepartamentResponseDto {
     private Long id;
     private String name;
-
-    public DepartamentResponseDto(Departament departament) {
-        this.id = departament.getId();
-        this.name = departament.getName();
-    }
 }

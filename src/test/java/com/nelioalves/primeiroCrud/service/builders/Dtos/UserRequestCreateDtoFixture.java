@@ -1,4 +1,4 @@
-package com.nelioalves.primeiroCrud.service.fixtures;
+package com.nelioalves.primeiroCrud.service.builders.Dtos;
 
 import com.nelioalves.primeiroCrud.dto.request.UserRequestCreateDto;
 
