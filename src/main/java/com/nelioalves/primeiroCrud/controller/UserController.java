@@ -27,9 +27,24 @@ public class UserController {
     }
 
     //TODO: estudar paginação e implementar.
+//    @GetMapping
+//    public ResponseEntity<List<UserResponseCreateDto>> findAll() {
+//        List<UserResponseCreateDto> users = userService.findAll();
+//        return ResponseEntity.status(HttpStatus.OK).body(users);
+//    }
+
     @GetMapping
-    public ResponseEntity<List<UserResponseCreateDto>> findAll() {
-        List<UserResponseCreateDto> users = userService.findAll();
+    public ResponseEntity<List<UserResponseCreateDto>> findAll(
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "email", required = false) String email
+            ){
+
+        UserRequestCreateDto request = UserRequestCreateDto.builder()
+                .name(name)
+                .email(email)
+                .build();
+
+        List<UserResponseCreateDto> users = userService.queryUser(request);
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 

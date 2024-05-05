@@ -92,49 +92,81 @@ public class UserService {
         return null;//TODO criar excepetions;
     }
 
-    public List<UserResponseCreateDto> findAll() {
-        List<User> listUsuario = userRepository.findAll();
+    public List<UserResponseCreateDto> queryUser(UserRequestCreateDto request){
 
-        if (listUsuario != null) {
-            List<UserResponseCreateDto> dtos = new ArrayList<>();
-// Outras formas de realizar o FOR.
-//        int index = 0;
-//        while(index < listUsuario.size()){
-//            User user = listUsuario.get(index);
-//            dtos.add(new UserDto(user));
-//        }
-//
-//        for(int i=0; i < listUsuario.size(); i++){
-//            User user = listUsuario.get(i);
-//            dtos.add(new UserDto(user));
-//        }
+        if (request.getName() == null && request.getEmail() == null){
+            List<User> userList = userRepository.findAll();
+             if (userList != null){
+                var listUser = listUser(userList);
+                return listUser;
+             }
+             else{
+                 System.out.print("LIsta vazia"); //TODO adicionar tratamentos de erro;
+             }
+        }
+        else if(request.getName() != null){
+            List<User> userList = userRepository.findByName(request.getName());
 
-            for (User user : listUsuario) {
-                dtos.add(UserResponseCreateDto.builder()
-                        .id(user.getId())
-                        .name(user.getName())
-                        .email(user.getEmail())
-                        .departament(DepartamentResponseDto.builder()
-                                .id(user.getDepartament().getId())
-                                .name(user.getDepartament().getName())
-                                .build())
-                        .endereco(EnderecoResponseCreateDto.builder()
-                                .Id(user.getEndereco().getId())
-                                .rua(user.getEndereco().getRua())
-                                .numero(user.getEndereco().getNumero())
-                                .complemento(user.getEndereco().getComplemento())
-                                .bairro(user.getEndereco().getBairro())
-                                .cidade(user.getEndereco().getCidade())
-                                .estado(user.getEndereco().getEstado())
-                                .cep(user.getEndereco().getCep())
-                                .pais(user.getEndereco().getPais())
-                                .build())
-                        .build());
+            if (userList != null){
+                var listUser = listUser(userList);
+                return listUser;
             }
-            return dtos;
+            else {
+                System.out.print("Usuário não encontrado"); //TODO adicionar tratamentos de erro;
+            }
+        }
+        else{
+            List<User> userList = userRepository.findByEmail(request.getEmail());
+            if (userList != null) {
+                var listUser = listUser(userList);
+                return listUser;
+            }
+            else {
+                System.out.print("Usuário não encontrado"); //TODO adicionar tratamentos de erro;
+            }
         }
         return null;
     }
+
+    public List<UserResponseCreateDto> listUser (List<User> userlist) {
+        List<UserResponseCreateDto> dtos = new ArrayList<>();
+
+        for (User user : userlist){
+            dtos.add(UserResponseCreateDto.builder()
+                    .id(user.getId())
+                    .name(user.getName())
+                    .email(user.getEmail())
+                    .departament(DepartamentResponseDto.builder()
+                            .id(user.getDepartament().getId())
+                            .name(user.getDepartament().getName())
+                            .build())
+                    .endereco(EnderecoResponseCreateDto.builder()
+                            .Id(user.getEndereco().getId())
+                            .rua(user.getEndereco().getRua())
+                            .numero(user.getEndereco().getNumero())
+                            .complemento(user.getEndereco().getComplemento())
+                            .bairro(user.getEndereco().getBairro())
+                            .cidade(user.getEndereco().getCidade())
+                            .estado(user.getEndereco().getEstado())
+                            .cep(user.getEndereco().getCep())
+                            .pais(user.getEndereco().getPais())
+                            .build())
+                    .build());
+        }
+        return dtos;
+    }
+
+//// Outras formas de realizar o FOR.
+////        int index = 0;
+////        while(index < listUsuario.size()){
+////            User user = listUsuario.get(index);
+////            dtos.add(new UserDto(user));
+////        }
+////
+////        for(int i=0; i < listUsuario.size(); i++){
+////            User user = listUsuario.get(i);
+////            dtos.add(new UserDto(user));
+////        }
 
     public UserResponseCreateDto updateUser(Long id, UserRequestCreateDto userRequestCreateDto){
         Optional<User> userOpt = userRepository.findById(id);
