@@ -23,7 +23,10 @@ public class DepartamentService {
                 .name(departamentDto.getName())
                 .build();
         Departament departamentSaved = departamentRepository.save(departamentEntity);
-        return new DepartamentResponseDto(departamentSaved);
+        return DepartamentResponseDto.builder()
+                .id(departamentSaved.getId())
+                .name(departamentSaved.getName())
+                .build();
     }
 
     public Departament findById (Long id){
@@ -32,14 +35,20 @@ public class DepartamentService {
 
     public DepartamentResponseDto findByIdDto(Long id){
         Departament departamentEntity = departamentRepository.findById(id).get();
-        return new DepartamentResponseDto(departamentEntity);
+        return DepartamentResponseDto.builder()
+                .id(departamentEntity.getId())
+                .name(departamentEntity.getName())
+                .build();
     }
 
     public List<DepartamentResponseDto> findAll(){
         List<Departament> departaments = departamentRepository.findAll();
         List<DepartamentResponseDto> departamentDtos = new ArrayList<>();
         for (Departament departament : departaments ) {
-             departamentDtos.add(new DepartamentResponseDto(departament));
+             departamentDtos.add(DepartamentResponseDto.builder()
+                     .id(departament.getId())
+                     .name(departament.getName())
+                     .build());
         }
         return departamentDtos;
      }
@@ -50,7 +59,10 @@ public class DepartamentService {
             Departament departamentEntity = departamentOpt.get();
             departamentEntity.setName(departament.getName());
             departamentRepository.save(departamentEntity);
-            return new DepartamentResponseDto(departamentEntity);
+            return DepartamentResponseDto.builder()
+                    .id(departamentEntity.getId())
+                    .name(departamentEntity.getName())
+                    .build();
         }
         else {
             System.out.println("O departamento não foi encontrado"); //TODO: Implementar exceptions.

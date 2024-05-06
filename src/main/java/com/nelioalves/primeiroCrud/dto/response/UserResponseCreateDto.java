@@ -5,8 +5,10 @@ import com.nelioalves.primeiroCrud.dto.request.DepartamentRequestUpdateDto;
 import com.nelioalves.primeiroCrud.entities.Departament;
 import com.nelioalves.primeiroCrud.entities.Endereco;
 import com.nelioalves.primeiroCrud.entities.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +16,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Schema(name = "Response usuário sucesso")
 public class UserResponseCreateDto {
     private Long id;
 
@@ -24,12 +28,4 @@ public class UserResponseCreateDto {
     private DepartamentResponseDto departament;
 
     private EnderecoResponseCreateDto endereco;
-
-    public UserResponseCreateDto(User user) {
-        id = user.getId();
-        name = user.getName();
-        email = user.getEmail();
-        departament = new DepartamentResponseDto(user.getDepartament());
-        endereco = new EnderecoResponseCreateDto(user.getEndereco());
-    }
 }

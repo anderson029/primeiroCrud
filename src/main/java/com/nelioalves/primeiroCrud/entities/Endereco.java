@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+//Todo alterar nomenclatura da classe para address
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

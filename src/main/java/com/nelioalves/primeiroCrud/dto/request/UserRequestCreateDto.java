@@ -1,9 +1,11 @@
 package com.nelioalves.primeiroCrud.dto.request;
 
 import com.nelioalves.primeiroCrud.constants.ValidationMessages;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +13,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Schema(name = "Cadastro de usuário")
 public class UserRequestCreateDto {
 
     @NotBlank(message = ValidationMessages.NAME_NOT_NULL)

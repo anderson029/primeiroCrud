@@ -1,6 +1,8 @@
 package com.nelioalves.primeiroCrud.service;
 
 import com.nelioalves.primeiroCrud.dto.request.UserRequestCreateDto;
+import com.nelioalves.primeiroCrud.dto.response.DepartamentResponseDto;
+import com.nelioalves.primeiroCrud.dto.response.EnderecoResponseCreateDto;
 import com.nelioalves.primeiroCrud.dto.response.UserResponseCreateDto;
 import com.nelioalves.primeiroCrud.entities.Departament;
 import com.nelioalves.primeiroCrud.entities.Endereco;
@@ -39,35 +41,135 @@ public class UserService {
         //Salvando entidade no banco.
         User userSaved = userRepository.save(userEntity);
         // Convertendo a entidade em DTO.
-        return new UserResponseCreateDto(userSaved);
+        return UserResponseCreateDto.builder()
+                .id(userSaved.getId())
+                .name(userSaved.getName())
+                .email(userSaved.getEmail())
+                .departament(DepartamentResponseDto.builder()
+                        .id(userSaved.getDepartament().getId())
+                        .name(userSaved.getDepartament().getName())
+                        .build())
+                .endereco(EnderecoResponseCreateDto.builder()
+                        .Id(userSaved.getEndereco().getId())
+                        .rua(userSaved.getEndereco().getRua())
+                        .numero(userSaved.getEndereco().getNumero())
+                        .complemento(userSaved.getEndereco().getComplemento())
+                        .bairro(userSaved.getEndereco().getBairro())
+                        .cidade(userSaved.getEndereco().getCidade())
+                        .estado(userSaved.getEndereco().getEstado())
+                        .cep(userSaved.getEndereco().getCep())
+                        .pais(userSaved.getEndereco().getPais())
+                        .build())
+                .build();
     }
 
     public UserResponseCreateDto findById(Long id) {
-        User entity = userRepository.findById(id).get();
-        return new UserResponseCreateDto(entity);
+        Optional<User> entityOpt = userRepository.findById(id);
+        if (entityOpt.isPresent()) {
+            User entity = entityOpt.get();
+
+            return UserResponseCreateDto.builder()
+                    .id(entity.getId())
+                    .name(entity.getName())
+                    .email(entity.getEmail())
+                    .departament(DepartamentResponseDto.builder()
+                            .id(entity.getDepartament().getId())
+                            .name(entity.getDepartament().getName())
+                            .build())
+                    .endereco(EnderecoResponseCreateDto.builder()
+                            .Id(entity.getEndereco().getId())
+                            .rua(entity.getEndereco().getRua())
+                            .numero(entity.getEndereco().getNumero())
+                            .complemento(entity.getEndereco().getComplemento())
+                            .bairro(entity.getEndereco().getBairro())
+                            .cidade(entity.getEndereco().getCidade())
+                            .estado(entity.getEndereco().getEstado())
+                            .cep(entity.getEndereco().getCep())
+                            .pais(entity.getEndereco().getPais())
+                            .build())
+                    .build();
+        }
+        return null;//TODO criar excepetions;
     }
 
-    public List<UserResponseCreateDto> findAll() {
-        List<User> listUsuario = userRepository.findAll();
+    public List<UserResponseCreateDto> queryUser(UserRequestCreateDto request) {
+
+        if (request.getName() == null && request.getEmail() == null) {
+            List<User> userList = userRepository.findAll();
+            if (userList != null) {
+                var listUser = listUser(userList);
+                return listUser;
+            } else {
+                System.out.print("LIsta vazia"); //TODO adicionar tratamentos de erro;
+            }
+        } else if (request.getName() != null) {
+            List<User> userList = userRepository.findByName(request.getName());
+
+            if (userList != null) {
+                var listUser = listUser(userList);
+                return listUser;
+            } else {
+                System.out.print("Usuário não encontrado"); //TODO adicionar tratamentos de erro;
+            }
+        } else if (request.getEmail() != null) {
+            List<User> userList = userRepository.findByEmail(request.getEmail());
+            if (userList != null) {
+                var listUser = listUser(userList);
+                return listUser;
+            } else {
+                System.out.print("Usuário não encontrado"); //TODO adicionar tratamentos de erro;
+            }
+        } else {
+            List<User> userList = userRepository.findByNameOrEmail(request.getName(), request.getEmail());
+            if (userList != null) {
+                var listUser = listUser(userList);
+                return listUser;
+            } else {
+                System.out.print("Usuário não encontrado"); //TODO adicionar tratamentos de erro;
+            }
+        }
+        return null;
+    }
+
+    public List<UserResponseCreateDto> listUser (List<User> userlist) {
         List<UserResponseCreateDto> dtos = new ArrayList<>();
 
-// Outras formas de realizar o FOR.
-//        int index = 0;
-//        while(index < listUsuario.size()){
-//            User user = listUsuario.get(index);
-//            dtos.add(new UserDto(user));
-//        }
-//
-//        for(int i=0; i < listUsuario.size(); i++){
-//            User user = listUsuario.get(i);
-//            dtos.add(new UserDto(user));
-//        }
-
-        for (User user : listUsuario) {
-            dtos.add(new UserResponseCreateDto(user));
+        for (User user : userlist){
+            dtos.add(UserResponseCreateDto.builder()
+                    .id(user.getId())
+                    .name(user.getName())
+                    .email(user.getEmail())
+                    .departament(DepartamentResponseDto.builder()
+                            .id(user.getDepartament().getId())
+                            .name(user.getDepartament().getName())
+                            .build())
+                    .endereco(EnderecoResponseCreateDto.builder()
+                            .Id(user.getEndereco().getId())
+                            .rua(user.getEndereco().getRua())
+                            .numero(user.getEndereco().getNumero())
+                            .complemento(user.getEndereco().getComplemento())
+                            .bairro(user.getEndereco().getBairro())
+                            .cidade(user.getEndereco().getCidade())
+                            .estado(user.getEndereco().getEstado())
+                            .cep(user.getEndereco().getCep())
+                            .pais(user.getEndereco().getPais())
+                            .build())
+                    .build());
         }
         return dtos;
     }
+
+//// Outras formas de realizar o FOR.
+////        int index = 0;
+////        while(index < listUsuario.size()){
+////            User user = listUsuario.get(index);
+////            dtos.add(new UserDto(user));
+////        }
+////
+////        for(int i=0; i < listUsuario.size(); i++){
+////            User user = listUsuario.get(i);
+////            dtos.add(new UserDto(user));
+////        }
 
     public UserResponseCreateDto updateUser(Long id, UserRequestCreateDto userRequestCreateDto){
         Optional<User> userOpt = userRepository.findById(id);
@@ -77,7 +179,26 @@ public class UserService {
             userEntity.setName(userRequestCreateDto.getName());
             userEntity.setEmail(userRequestCreateDto.getEmail());
             userRepository.save(userEntity);
-            UserResponseCreateDto updateResponse = new UserResponseCreateDto(userEntity);
+            UserResponseCreateDto updateResponse = UserResponseCreateDto.builder()
+                    .id(userEntity.getId())
+                    .name(userEntity.getName())
+                    .email(userEntity.getEmail())
+                    .departament(DepartamentResponseDto.builder()
+                            .id(userEntity.getDepartament().getId())
+                            .name(userEntity.getDepartament().getName())
+                            .build())
+                    .endereco(EnderecoResponseCreateDto.builder()
+                            .Id(userEntity.getEndereco().getId())
+                            .rua(userEntity.getEndereco().getRua())
+                            .numero(userEntity.getEndereco().getNumero())
+                            .complemento(userEntity.getEndereco().getComplemento())
+                            .bairro(userEntity.getEndereco().getBairro())
+                            .cidade(userEntity.getEndereco().getCidade())
+                            .estado(userEntity.getEndereco().getEstado())
+                            .cep(userEntity.getEndereco().getCep())
+                            .pais(userEntity.getEndereco().getPais())
+                            .build())
+                    .build();
             return updateResponse;
         }
         else  {
