@@ -19,9 +19,9 @@ import java.util.List;
 // TODO: 1- Implentar crud completo de endereço
 // TODO: 2- Finalizar Swagger
 @RestController
-@RequestMapping(value = "/endereco", produces = {"application/json"})
+@RequestMapping(value = "/address", produces = {"application/json"})
 @AllArgsConstructor
-@Tag(name = "Endereço")
+@Tag(name = "Address")
 public class EnderecoController {
 
     private EnderecoService enderecoService;

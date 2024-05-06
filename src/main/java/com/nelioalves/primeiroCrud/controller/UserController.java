@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/users", produces = {"application/json"})
 @AllArgsConstructor
-@Tag(name = "Usuários")
+@Tag(name = "Users")
 public class UserController {
 
     private UserService userService; //injetar automaticamente minha service

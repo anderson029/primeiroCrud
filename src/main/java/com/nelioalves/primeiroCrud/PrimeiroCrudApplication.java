@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 // TODO: Criar README
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "Controle de Funcionários", version = "1.0", description = "Controle para gestão de funcinários"))
+@OpenAPIDefinition(info = @Info(title = "Gestão Funcionários", version = "1.0", description = "Gestão de funcionários"))
 public class PrimeiroCrudApplication {
 
 	public static void main(String[] args) {
