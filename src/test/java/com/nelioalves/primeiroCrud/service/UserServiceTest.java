@@ -32,7 +32,7 @@ import static org.mockito.Mockito.*;
 
 
 // TODO: Finalizar teste unitários da service e criar novos...
-// TODO: Criar README
+
 
 class UserServiceTest {
 

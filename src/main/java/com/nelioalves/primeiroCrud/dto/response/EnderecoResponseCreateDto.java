@@ -2,6 +2,7 @@ package com.nelioalves.primeiroCrud.dto.response;
 
 
 import com.nelioalves.primeiroCrud.entities.Endereco;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Schema(name = "Response endereço sucesso")
 public class EnderecoResponseCreateDto {
     private Long Id;
     private String rua;

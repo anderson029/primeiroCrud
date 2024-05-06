@@ -92,36 +92,39 @@ public class UserService {
         return null;//TODO criar excepetions;
     }
 
-    public List<UserResponseCreateDto> queryUser(UserRequestCreateDto request){
+    public List<UserResponseCreateDto> queryUser(UserRequestCreateDto request) {
 
-        if (request.getName() == null && request.getEmail() == null){
+        if (request.getName() == null && request.getEmail() == null) {
             List<User> userList = userRepository.findAll();
-             if (userList != null){
+            if (userList != null) {
                 var listUser = listUser(userList);
                 return listUser;
-             }
-             else{
-                 System.out.print("LIsta vazia"); //TODO adicionar tratamentos de erro;
-             }
-        }
-        else if(request.getName() != null){
+            } else {
+                System.out.print("LIsta vazia"); //TODO adicionar tratamentos de erro;
+            }
+        } else if (request.getName() != null) {
             List<User> userList = userRepository.findByName(request.getName());
 
-            if (userList != null){
+            if (userList != null) {
                 var listUser = listUser(userList);
                 return listUser;
-            }
-            else {
+            } else {
                 System.out.print("Usuário não encontrado"); //TODO adicionar tratamentos de erro;
             }
-        }
-        else{
+        } else if (request.getEmail() != null) {
             List<User> userList = userRepository.findByEmail(request.getEmail());
             if (userList != null) {
                 var listUser = listUser(userList);
                 return listUser;
+            } else {
+                System.out.print("Usuário não encontrado"); //TODO adicionar tratamentos de erro;
             }
-            else {
+        } else {
+            List<User> userList = userRepository.findByNameOrEmail(request.getName(), request.getEmail());
+            if (userList != null) {
+                var listUser = listUser(userList);
+                return listUser;
+            } else {
                 System.out.print("Usuário não encontrado"); //TODO adicionar tratamentos de erro;
             }
         }
