@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Schema(name = "Cadastro de endereço")
 public class EnderecoRequestCreateDto {
     private String rua;
-    private int numero;
+    private Integer numero;
     private String complemento;
     private String bairro;
     private String cidade;

@@ -1,7 +1,9 @@
 package com.nelioalves.primeiroCrud.controller;
 
 import com.nelioalves.primeiroCrud.dto.request.UserRequestCreateDto;
+import com.nelioalves.primeiroCrud.dto.request.UserRequestQueryDto;
 import com.nelioalves.primeiroCrud.dto.response.UserResponseCreateDto;
+import com.nelioalves.primeiroCrud.dto.response.UserResponseQueryDto;
 import com.nelioalves.primeiroCrud.exceptions.dto.ErrorResponseDto;
 import com.nelioalves.primeiroCrud.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //TODO: Atualizer Swagger após criar as exceptions erros;
+@Slf4j
 @RestController
 @RequestMapping(value = "/users", produces = {"application/json"})
 @AllArgsConstructor
@@ -36,6 +40,7 @@ public class UserController {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserResponseCreateDto> createUsers(@RequestBody @Valid UserRequestCreateDto user){
+        log.info("Post de usuários");
         UserResponseCreateDto userResponseCreateDto = userService.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponseCreateDto);
     }
@@ -47,17 +52,17 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(deprecated = false)))
     })
     @GetMapping
-    public ResponseEntity<List<UserResponseCreateDto>> findAll(
+    public ResponseEntity<List<UserResponseQueryDto>> findAll(
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "email", required = false) String email
             ){
-
-        UserRequestCreateDto request = UserRequestCreateDto.builder()
+//TODO Alterar reqyestCreateDto dto para responseCrateDto;
+        UserRequestQueryDto request = UserRequestQueryDto.builder()
                 .name(name)
                 .email(email)
                 .build();
 
-        List<UserResponseCreateDto> users = userService.queryUser(request);
+        List<UserResponseQueryDto> users = userService.queryUser(request);
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 

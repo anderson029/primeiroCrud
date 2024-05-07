@@ -3,8 +3,10 @@ package com.nelioalves.primeiroCrud.service;
 import com.nelioalves.primeiroCrud.dto.request.EnderecoRequestCreateDto;
 import com.nelioalves.primeiroCrud.dto.response.EnderecoResponseCreateDto;
 import com.nelioalves.primeiroCrud.entities.Endereco;
+import com.nelioalves.primeiroCrud.exceptions.BusinessException;
 import com.nelioalves.primeiroCrud.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,7 +47,13 @@ public class EnderecoService {
 
     public Endereco findById (Long id){
         Optional<Endereco> end = enderecoRepository.findById(id);
-        Endereco endereco = end.isPresent() ? end.get() : null;
+
+        if (end.isEmpty()){
+            throw new BusinessException("ADN-002", "Endereço não encontrado", HttpStatus.NOT_FOUND);
+        }
+
+        Endereco endereco = end.isPresent() ? end.get() : null; //TODO: lançar erro 404
+
         return endereco;
     }
 

@@ -1,14 +1,18 @@
 package com.nelioalves.primeiroCrud.service;
 
 import com.nelioalves.primeiroCrud.dto.request.UserRequestCreateDto;
+import com.nelioalves.primeiroCrud.dto.request.UserRequestQueryDto;
 import com.nelioalves.primeiroCrud.dto.response.DepartamentResponseDto;
 import com.nelioalves.primeiroCrud.dto.response.EnderecoResponseCreateDto;
 import com.nelioalves.primeiroCrud.dto.response.UserResponseCreateDto;
+import com.nelioalves.primeiroCrud.dto.response.UserResponseQueryDto;
 import com.nelioalves.primeiroCrud.entities.Departament;
 import com.nelioalves.primeiroCrud.entities.Endereco;
 import com.nelioalves.primeiroCrud.entities.User;
+import com.nelioalves.primeiroCrud.exceptions.BusinessException;
 import com.nelioalves.primeiroCrud.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -41,7 +45,7 @@ public class UserService {
         //Salvando entidade no banco.
         User userSaved = userRepository.save(userEntity);
         // Convertendo a entidade em DTO.
-        return UserResponseCreateDto.builder()
+        return UserResponseCreateDto.builder()//TODO criar nova classe para realizar o mapeamento de entidade para DTO
                 .id(userSaved.getId())
                 .name(userSaved.getName())
                 .email(userSaved.getEmail())
@@ -92,50 +96,48 @@ public class UserService {
         return null;//TODO criar excepetions;
     }
 
-    public List<UserResponseCreateDto> queryUser(UserRequestCreateDto request) {
+    public List<UserResponseQueryDto> queryUser(UserRequestQueryDto request) {
+        List<UserResponseQueryDto> users = new ArrayList<>();
 
         if (request.getName() == null && request.getEmail() == null) {
             List<User> userList = userRepository.findAll();
-            if (userList != null) {
-                var listUser = listUser(userList);
-                return listUser;
-            } else {
-                System.out.print("LIsta vazia"); //TODO adicionar tratamentos de erro;
+            if(userList.isEmpty()){
+                throw new BusinessException("ADN-001","Usuário não encontrado!", HttpStatus.NOT_FOUND);
             }
-        } else if (request.getName() != null) {
-            List<User> userList = userRepository.findByName(request.getName());
-
-            if (userList != null) {
-                var listUser = listUser(userList);
-                return listUser;
-            } else {
-                System.out.print("Usuário não encontrado"); //TODO adicionar tratamentos de erro;
-            }
-        } else if (request.getEmail() != null) {
-            List<User> userList = userRepository.findByEmail(request.getEmail());
-            if (userList != null) {
-                var listUser = listUser(userList);
-                return listUser;
-            } else {
-                System.out.print("Usuário não encontrado"); //TODO adicionar tratamentos de erro;
-            }
-        } else {
-            List<User> userList = userRepository.findByNameOrEmail(request.getName(), request.getEmail());
-            if (userList != null) {
-                var listUser = listUser(userList);
-                return listUser;
-            } else {
-                System.out.print("Usuário não encontrado"); //TODO adicionar tratamentos de erro;
-            }
+            return listUser(userList);
         }
-        return null;
+
+        if (request.getName() != null) {
+            List<User> userList = userRepository.findByName(request.getName());
+            if(userList.isEmpty()){
+                throw new BusinessException("ADN-001","Usuário não encontrado!", HttpStatus.NOT_FOUND);
+            }
+            return listUser(userList);
+        }
+
+        if (request.getEmail() != null) {
+            List<User> userList = userRepository.findByEmail(request.getEmail());
+            if (userList.isEmpty()) {
+                throw new BusinessException("ADN-001", "Usuário não encontrado!", HttpStatus.NOT_FOUND);
+            }
+            return listUser(userList);
+        }
+
+        List<User> userList = userRepository.findByNameOrEmail(request.getName(), request.getEmail());
+        if (userList.isEmpty()) {
+            if (userList.isEmpty()) {
+                throw new BusinessException("ADN-001", "Usuário não encontrado!", HttpStatus.NOT_FOUND);
+            }
+            return listUser(userList);
+        }
+        return users;
     }
 
-    public List<UserResponseCreateDto> listUser (List<User> userlist) {
-        List<UserResponseCreateDto> dtos = new ArrayList<>();
+    public List<UserResponseQueryDto> listUser (List<User> userlist) {
+        List<UserResponseQueryDto> dtos = new ArrayList<>();
 
         for (User user : userlist){
-            dtos.add(UserResponseCreateDto.builder()
+            dtos.add(UserResponseQueryDto.builder()
                     .id(user.getId())
                     .name(user.getName())
                     .email(user.getEmail())

@@ -18,11 +18,12 @@ public class Endereco {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     private String rua;
-    private int numero;
+    private Integer numero;
     private String complemento;
     private String bairro;
     private String cidade;
     private String estado;
     private String cep; //TODO alterar cep para inteiro;
+    @Column(length = 3)
     private String pais;
 }
