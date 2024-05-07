@@ -35,14 +35,6 @@ public class DepartamentService {
         return departamentRepository.findById(id).orElseThrow(() -> new BusinessException("ADN-003","Departamento não encontrado", HttpStatus.NOT_FOUND));
     }
 
-    public DepartamentResponseDto findByIdDto(Long id){
-        Departament departamentEntity = departamentRepository.findById(id).get();
-        return DepartamentResponseDto.builder()
-                .id(departamentEntity.getId())
-                .name(departamentEntity.getName())
-                .build();
-    }
-
     public List<DepartamentResponseDto> findAll(){
         List<Departament> departaments = departamentRepository.findAll();
         List<DepartamentResponseDto> departamentDtos = new ArrayList<>();

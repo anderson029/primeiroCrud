@@ -1,6 +1,5 @@
 package com.nelioalves.primeiroCrud.dto.response;
 
-import com.nelioalves.primeiroCrud.entities.Departament;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

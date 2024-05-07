@@ -4,6 +4,8 @@ package com.nelioalves.primeiroCrud.controller;
 import com.nelioalves.primeiroCrud.dto.request.DepartamentRequestCreateDto;
 import com.nelioalves.primeiroCrud.dto.request.DepartamentRequestUpdateDto;
 import com.nelioalves.primeiroCrud.dto.response.DepartamentResponseDto;
+import com.nelioalves.primeiroCrud.entities.Departament;
+import com.nelioalves.primeiroCrud.mappers.DepartamentMapper;
 import com.nelioalves.primeiroCrud.service.DepartamentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -44,8 +46,8 @@ public class DepartamentController {
     })
     @GetMapping(value = "/{id}")
     public ResponseEntity<DepartamentResponseDto> findById (@PathVariable Long id){
-        DepartamentResponseDto departamentDto = departamentService.findByIdDto(id);
-        return ResponseEntity.status(HttpStatus.OK).body(departamentDto);
+        Departament departament = departamentService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(DepartamentMapper.toDepartamentResponseDto(departament));
     }
 
     @Operation(summary = "Lista de departamentos", description = "Listar departamentos", method = "GET")

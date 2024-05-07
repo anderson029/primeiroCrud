@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+//TODO estudar SQL
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByName(String name);
     List<User> findByEmail(String email);
