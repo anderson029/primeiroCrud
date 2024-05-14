@@ -1,16 +1,12 @@
 package com.nelioalves.primeiroCrud.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class UserResponseCreateDto {
+public class UserResponseQueryDto {
+
     private Long id;
 
     private String name;

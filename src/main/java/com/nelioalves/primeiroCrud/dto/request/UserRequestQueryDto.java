@@ -1,15 +1,19 @@
-package com.nelioalves.primeiroCrud.dto.response;
+package com.nelioalves.primeiroCrud.dto.request;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DepartamentResponseDto {
-    private Long id;
+@Data
+@Builder
+public class UserRequestQueryDto {
+
     private String name;
+
+    private String email;
+
 }
