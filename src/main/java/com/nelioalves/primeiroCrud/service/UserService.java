@@ -37,7 +37,7 @@ public class UserService {
         Departament departamentEntity = departamentService.findById(user.getDepartamentId());
         User userEntity = User.builder()
                 .id(null)
-                .name(user.getName())
+                .name(user.getName().trim())
                 .email(user.getEmail())
                 .departament(departamentEntity)
                 .endereco(enderecoEntity)
