@@ -1,17 +1,16 @@
 package com.nelioalves.primeiroCrud.service;
 
 import com.nelioalves.primeiroCrud.dto.request.UserRequestCreateDto;
-import com.nelioalves.primeiroCrud.dto.response.DepartamentResponseDto;
-import com.nelioalves.primeiroCrud.dto.response.EnderecoResponseCreateDto;
+
 import com.nelioalves.primeiroCrud.dto.response.UserResponseCreateDto;
 import com.nelioalves.primeiroCrud.entities.Departament;
 import com.nelioalves.primeiroCrud.entities.Endereco;
 import com.nelioalves.primeiroCrud.entities.User;
 import com.nelioalves.primeiroCrud.repository.UserRepository;
 import com.nelioalves.primeiroCrud.service.builders.DepartamentEntityBuilder;
+import com.nelioalves.primeiroCrud.service.builders.Dtos.UserRequestCreateDtoFixture;
 import com.nelioalves.primeiroCrud.service.builders.EnderecoEntityBuilder;
 import com.nelioalves.primeiroCrud.service.builders.UserEntityBuilder;
-import com.nelioalves.primeiroCrud.service.builders.Dtos.UserRequestCreateDtoFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,14 +19,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 
@@ -57,6 +54,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("Criando usuário com sucesso")
+
     void createUserTest() {
         UserRequestCreateDto request = UserRequestCreateDtoFixture.build();
 

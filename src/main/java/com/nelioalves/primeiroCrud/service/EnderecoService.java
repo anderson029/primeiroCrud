@@ -19,6 +19,7 @@ public class EnderecoService {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
+    //TODO: alterar métodos para inglês
     public EnderecoResponseCreateDto createEndereco(EnderecoRequestCreateDto endereco){
         Endereco enderecoEntity = Endereco.builder()
                 .rua(endereco.getRua())

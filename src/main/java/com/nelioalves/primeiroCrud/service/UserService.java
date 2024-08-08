@@ -45,7 +45,7 @@ public class UserService {
         //Salvando entidade no banco.
         User userSaved = userRepository.save(userEntity);
         // Convertendo a entidade em DTO.
-        return UserResponseCreateDto.builder()//TODO criar nova classe para realizar o mapeamento de entidade para DTO
+        return UserResponseCreateDto.builder()
                 .id(userSaved.getId())
                 .name(userSaved.getName())
                 .email(userSaved.getEmail())

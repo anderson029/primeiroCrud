@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-
+    //Todo adicionar data e hora da criação do dados e update
     @Id // para dizer que minha chave é primária
     @GeneratedValue(strategy = GenerationType.IDENTITY) // para o id ser gerado automaticamente pelo banco de dados.
     private Long id;

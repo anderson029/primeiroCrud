@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Departament {
+    //Todo adicionar data e hora da criação do dados e update
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//Todo alterar nomenclatura da classe para address
+//Todo alterar nomenclatura da classe para address e Entity
+//Todo adicionar data e hora da criação do dados e update
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +24,7 @@ public class Endereco {
     private String bairro;
     private String cidade;
     private String estado;
-    private String cep; //TODO alterar cep para inteiro;
+    private String cep;
     @Column(length = 3)
     private String pais;
 }
